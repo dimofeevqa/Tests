@@ -7,19 +7,25 @@ on:
 
 jobs:
   run-tests:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
+    
+    env:
+      Solution_Name: DemoTests.sln
+      Test_Project_Path: DemoTests.csproj
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Install .NET Core
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 6.0.x
 
-      - name: Restore dependencies
-        run: dotnet restore
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.0.2
 
       - name: Build and run tests
         run: dotnet test --logger "trx;LogFileName=test_results.trx"
