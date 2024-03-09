@@ -16,23 +16,23 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '3.1.x' # Adjust as necessary
+          dotnet-version: '3.1.x'
 
       - name: Restore dependencies
         run: dotnet restore
 
       - name: Build and run tests
-        run: dotnet test --logger "trx;LogFileName=test_results.trx" # Adjust test command as necessary
+        run: dotnet test --logger "trx;LogFileName=test_results.trx"
 
       - name: Upload test results
         uses: actions/upload-artifact@v2
         with:
           name: test-results
-          path: bin/Debug/netcoreapp3.1/*.trx # Adjust path to match your test results file
+          path: bin/Debug/netcoreapp3.1/*.trx
 
       - name: Dispatch test results
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
-          repository: your-username/taskboard
+          repository: dimofeev/Taskboard
           event-type: test-results
